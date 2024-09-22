@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      - 'POSTGRES_DB=mydatabase'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=myuser'
+    ports:
+      - "5432"
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_DISABLE_LOGIN_FORM=true
+    volumes:
+      - ./docker/grafana/:/etc/grafana/provisioning/datasources
+      - ./docker/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yaml
+      - ./docker/dashboards:/etc/grafana/dashboards
+      - grafana-storage:/var/lib/grafana
+
+  loki:
+    image: grafana/loki
+    ports:
+      - "3100:3100"
+    command:
+      "-config.file=/etc/loki/local-config.yaml"
+
+  tempo:
+    image: grafana/tempo
+    container_name: tempo
+    command:
+      - "-config.file=/etc/tempo/tempo.yml"
+    ports:
+      - "3200:3200"
+      - "9411:9411"
+    volumes:
+      - ./docker/tempo/tempo.yml:/etc/tempo/tempo.yml
+
+volumes:
+  grafana-storage:

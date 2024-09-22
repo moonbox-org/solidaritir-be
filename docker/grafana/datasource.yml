@@ -1,0 +1,39 @@
+apiVersion: 1
+
+datasources:
+  - name: loki
+    type: loki
+    uid: loki
+    orgId: 1
+    typeLogoUrl: public/app/plugins/datasource/loki/img/loki_icon.svg
+    access: proxy
+    url: http://loki:3100
+    basicAuth: false
+    isDefault: true
+    jsonData: {}
+    readOnly: false
+
+  - name: prometheus
+    type: prometheus
+    uid: prometheus
+    orgId: 1
+    typeLogoUrl: public/app/plugins/datasource/prometheus/img/prometheus_logo.svg
+    access: proxy
+    url: http://prometheus:9090
+    basicAuth: false
+    isDefault: false
+    jsonData:
+      httpMethod: POST
+    readOnly: false
+
+  - name: tempo
+    type: tempo
+    uid: tempo
+    orgId: 1
+    typeLogoUrl: public/app/plugins/datasource/tempo/img/tempo_logo.svg
+    access: proxy
+    url: http://tempo:3200
+    basicAuth: false
+    isDefault: false
+    jsonData: {}
+    readOnly: false

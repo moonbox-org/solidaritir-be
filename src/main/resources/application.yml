@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: solidaritirbe
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      show-sql: true
+  docker:
+    compose:
+      enabled: true
+      file: compose-dev.yml
+  zipkin:
+    enabled: true
+    base-url: http://localhost:9411/api/v2/spans
+    connection-timeout: 5s
+    read-timeout: 5s
+  sleuth:
+    sampler:
+      probability: 1.0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+  metrics:
+    export:
+      simple:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    com.moonboxorg.solidaritirbe: INFO
