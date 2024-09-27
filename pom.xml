@@ -38,7 +38,7 @@
     </properties>
 
     <dependencies>
-        <!-- Spring starters-->
+        <!-- Spring starters -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -54,6 +54,18 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Units of measure -->
+        <dependency>
+            <groupId>eu.hoefel</groupId>
+            <artifactId>units</artifactId>
+            <version>4.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.hoefel</groupId>
+            <artifactId>quantities</artifactId>
+            <version>0.10.2</version>
         </dependency>
 
         <!-- Devtools -->
