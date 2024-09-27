@@ -1,6 +1,6 @@
 # SolidariTIR
 
-<div style="text-align: center;">
+<div align="center">
     <img src="docs/images/solidaritir_logo_purple.png" alt="SolidariTIR logo" width="600"/>
 
 **SolidariTir** is a web application designed for small to medium-sized NGOs and collectives to help them manage the
@@ -51,7 +51,7 @@ generating reports.
 
    ```mvn spring-boot:run -Dspring-boot.run.profiles=dev```
 
-<div style="text-align: center">
+<div align="center">
     <div>This will be the list of containers created by the command</div>
     <img src="docs/images/container_list.png" alt="SolidariTIR logo" width="600"/>
 </div>
