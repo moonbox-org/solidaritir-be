@@ -63,7 +63,7 @@ generating reports.
 > [!NOTE]
 > Grafana dashboards and datasources will be configured automatically.
 >
-> PostgreSQL database will be created automatically and will expose a random port for connections with external clients.
+> PostgreSQL database will be created automatically and will expose port '5454' for connections with external clients.
 > You can statically assign a port by adding it to the postgres service in the [compose-dev.yml](compose-dev.yml).
 
 4. Happy coding.
