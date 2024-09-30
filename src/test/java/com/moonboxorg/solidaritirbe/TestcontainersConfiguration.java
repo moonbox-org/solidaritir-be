@@ -11,6 +11,10 @@ class TestcontainersConfiguration {
     @Bean
     @ServiceConnection
     PostgreSQLContainer<?> postgresContainer() {
-        return new PostgreSQLContainer<>("postgres:latest");
+        return new PostgreSQLContainer<>("postgres:latest")
+                .withDatabaseName("test")
+                .withUsername("test")
+                .withPassword("test")
+                .withInitScript("init-test.sql");
     }
 }

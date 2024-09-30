@@ -1,9 +1,12 @@
 package com.moonboxorg.solidaritirbe.services.impl;
 
+import com.moonboxorg.solidaritirbe.dto.ProvinceResponseDTO;
+import com.moonboxorg.solidaritirbe.entities.CollectionPointEntity;
 import com.moonboxorg.solidaritirbe.entities.ProvinceEntity;
 import com.moonboxorg.solidaritirbe.repositories.ProvinceRepository;
 import com.moonboxorg.solidaritirbe.services.ProvinceService;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,23 +18,53 @@ public class ProvinceServiceImpl implements ProvinceService {
 
     private final ProvinceRepository provinceRepository;
 
-    @Override
-    public List<ProvinceEntity> getAll() {
-        return provinceRepository.findAll();
+    public List<ProvinceResponseDTO> getFilteredProvinces(String name, String region) {
+        if (Strings.isNotBlank(name)) {
+            return getProvinceEntityByNameContainingIgnoreCase(name);
+        }
+        if (Strings.isNotBlank(region)) {
+            return getProvinceEntityByRegion(region);
+        }
+        return getAll();
     }
 
     @Override
-    public Optional<ProvinceEntity> getProvinceEntityByCode(String code) {
-        return provinceRepository.findByCode(code);
+    public List<ProvinceResponseDTO> getAll() {
+        return provinceRepository.findAll().stream()
+                .map(this::mapToProvinceResponseDTO)
+                .toList();
     }
 
     @Override
-    public List<ProvinceEntity> getProvinceEntityByNameContainingIgnoreCase(String name) {
-        return provinceRepository.findByNameContainingIgnoreCase(name);
+    public Optional<ProvinceResponseDTO> getProvinceEntityByCode(String code) {
+        return provinceRepository.findByCode(code)
+                .map(this::mapToProvinceResponseDTO);
     }
 
     @Override
-    public List<ProvinceEntity> getProvinceEntityByRegion(String region) {
-        return provinceRepository.findByRegionIgnoreCase(region);
+    public List<ProvinceResponseDTO> getProvinceEntityByNameContainingIgnoreCase(String name) {
+        return provinceRepository.findByNameContainingIgnoreCase(name).stream()
+                .map(this::mapToProvinceResponseDTO)
+                .toList();
+    }
+
+    @Override
+    public List<ProvinceResponseDTO> getProvinceEntityByRegion(String region) {
+        return provinceRepository.findByRegionIgnoreCase(region).stream()
+                .map(this::mapToProvinceResponseDTO)
+                .toList();
+    }
+
+    private ProvinceResponseDTO mapToProvinceResponseDTO(ProvinceEntity p) {
+        return new ProvinceResponseDTO(
+                p.getCode(),
+                p.getName(),
+                p.getRegion(),
+                p.getCollectionPoints().stream().map(CollectionPointEntity::getCode).toList(),
+                p.getCreatedAt(),
+                p.getCreatedBy(),
+                p.getLastUpdatedAt(),
+                p.getLastUpdatedBy()
+        );
     }
 }

@@ -1,3 +1,4 @@
+-- provinces
 delete from provinces;
 
 insert into provinces (name, code, region, created_at) values
@@ -111,3 +112,11 @@ insert into provinces (name, code, region, created_at) values
 ('Vibo Valentia', 'VV', 'Calabria', current_timestamp),
 ('Vicenza', 'VI', 'Veneto', current_timestamp),
 ('Viterbo', 'VT', 'Lazio', current_timestamp);
+
+-- collection points
+delete from collection_points;
+
+insert into collection_points (code, name, province_id, active, notes, created_by, created_at) values
+(1, 'PD-01', 'PD', true, 'Spazio Stria', 'init_script', current_timestamp),
+(2, 'PD-02', 'PD', false, 'Quadrato Meticcio', 'init_script', current_timestamp),
+(3, 'BO-01', 'BO', true, 'Notes', 'init_script', current_timestamp);

@@ -8,6 +8,22 @@ create table if not exists provinces(
     last_updated_by varchar(255)
 );
 
+create table if not exists collection_points (
+    code bigint primary key,
+    name varchar(255),
+    province_id varchar(2),
+    active boolean,
+    notes text,
+    created_by varchar(255),
+    created_at timestamp,
+    last_updated_by varchar(255),
+    last_updated_at timestamp,
+    constraint fk_province
+        foreign key (province_id)
+        references provinces(code)
+        on delete set null
+);
+
 insert into provinces (name, code, region, created_at) values
 ('Agrigento', 'AG', 'Sicilia', current_timestamp),
 ('Alessandria', 'AL', 'Piemonte', current_timestamp),
@@ -119,3 +135,8 @@ insert into provinces (name, code, region, created_at) values
 ('Vibo Valentia', 'VV', 'Calabria', current_timestamp),
 ('Vicenza', 'VI', 'Veneto', current_timestamp),
 ('Viterbo', 'VT', 'Lazio', current_timestamp);
+
+insert into collection_points (code, name, province_id, active, notes, created_by, created_at) values
+(1, 'PD-01', 'PD', true, 'Spazio Stria', 'init_script', current_timestamp),
+(2, 'PD-02', 'PD', false, 'Quadrato Meticcio', 'init_script', current_timestamp),
+(3, 'BO-01', 'BO', true, 'Notes', 'init_script', current_timestamp);

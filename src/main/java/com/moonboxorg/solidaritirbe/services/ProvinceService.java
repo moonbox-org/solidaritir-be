@@ -1,17 +1,17 @@
 package com.moonboxorg.solidaritirbe.services;
 
-import com.moonboxorg.solidaritirbe.entities.ProvinceEntity;
+import com.moonboxorg.solidaritirbe.dto.ProvinceResponseDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProvinceService {
 
-    List<ProvinceEntity> getAll();
+    List<ProvinceResponseDTO> getAll();
 
-    Optional<ProvinceEntity> getProvinceEntityByCode(String code);
+    Optional<ProvinceResponseDTO> getProvinceEntityByCode(String code);
 
-    List<ProvinceEntity> getProvinceEntityByNameContainingIgnoreCase(String name);
+    List<ProvinceResponseDTO> getProvinceEntityByNameContainingIgnoreCase(String name);
 
-    List<ProvinceEntity> getProvinceEntityByRegion(String region);
+    List<ProvinceResponseDTO> getProvinceEntityByRegion(String region);
 }
