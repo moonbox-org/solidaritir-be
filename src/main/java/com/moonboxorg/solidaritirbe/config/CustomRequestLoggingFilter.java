@@ -8,7 +8,7 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 public class CustomRequestLoggingFilter extends CommonsRequestLoggingFilter {
 
     private static final String INCOMING_REQUEST = "Incoming Request: ";
-    private static final String COMPLETED_REQUEST = "Completed Request: ";
+    private static final String COMPLETED_REQUEST = "Completed Response: ";
     private static final String ACTUATOR_ENDPOINT = "/actuator";
 
     @Override

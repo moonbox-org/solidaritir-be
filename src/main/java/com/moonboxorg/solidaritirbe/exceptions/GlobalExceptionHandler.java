@@ -4,7 +4,10 @@ import com.moonboxorg.solidaritirbe.dto.ApiResponse;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -13,6 +16,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -40,9 +44,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, BAD_REQUEST);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e, WebRequest request) {
+        String errorMessage = e.getBindingResult().getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(", "));
+
+        ApiResponse<Object> response = new ApiResponse<>(BAD_REQUEST.value(), errorMessage, null);
+        return new ResponseEntity<>(response, BAD_REQUEST);
+    }
+
     // Handle other exceptions
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Object>> handleGlobalException(Exception ex, WebRequest request) {
+    public ResponseEntity<ApiResponse<Object>> handleGlobalException(Exception e, WebRequest request) {
+        log.error("Unexpected error occurred", e);
         ApiResponse<Object> response = new ApiResponse<>(INTERNAL_SERVER_ERROR.value(), UNEXPECTED_ERROR_MSG, null);
         return new ResponseEntity<>(response, INTERNAL_SERVER_ERROR);
     }

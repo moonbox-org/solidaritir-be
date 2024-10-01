@@ -2,15 +2,15 @@ package com.moonboxorg.solidaritirbe.controllers;
 
 import com.moonboxorg.solidaritirbe.dto.ApiResponse;
 import com.moonboxorg.solidaritirbe.dto.CollectionPointResponseDTO;
+import com.moonboxorg.solidaritirbe.dto.CreateCollectionPointRequestDTO;
 import com.moonboxorg.solidaritirbe.services.impl.CollectionPointServiceImpl;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,5 +46,12 @@ public class CollectionPointController {
             return new ResponseEntity<>(new ApiResponse<>(NO_CONTENT.value(), NO_CONTENT.getReasonPhrase(), null), OK);
 
         return ResponseEntity.ok(new ApiResponse<>(OK.value(), OK.getReasonPhrase(), result));
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<Object>> createCollectionPoint(
+            @RequestBody @Valid CreateCollectionPointRequestDTO createCpDTO
+    ) throws BadRequestException {
+        return new ResponseEntity<>(new ApiResponse<>(CREATED.value(), CREATED.getReasonPhrase(), collectionPointService.createCollectionPoint(createCpDTO)), CREATED);
     }
 }

@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProvinceRepository extends JpaRepository<ProvinceEntity, String> {
-
-    boolean existsByCode(String code);
-
     Optional<ProvinceEntity> findByCode(String code);
 
     List<ProvinceEntity> findByNameContainingIgnoreCase(String name);

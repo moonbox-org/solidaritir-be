@@ -9,7 +9,7 @@ create table if not exists provinces(
 );
 
 create table if not exists collection_points (
-    code bigint primary key,
+    code serial primary key,
     name varchar(255),
     province_id varchar(2),
     active boolean,
@@ -136,7 +136,7 @@ insert into provinces (name, code, region, created_at) values
 ('Vicenza', 'VI', 'Veneto', current_timestamp),
 ('Viterbo', 'VT', 'Lazio', current_timestamp);
 
-insert into collection_points (code, name, province_id, active, notes, created_by, created_at) values
-(1, 'PD-01', 'PD', true, 'Spazio Stria', 'init_script', current_timestamp),
-(2, 'PD-02', 'PD', false, 'Quadrato Meticcio', 'init_script', current_timestamp),
-(3, 'BO-01', 'BO', true, 'Notes', 'init_script', current_timestamp);
+insert into collection_points (name, province_id, active, notes, created_by, created_at) values
+('PD-01', 'PD', true, 'Spazio Stria', 'init_script', current_timestamp),
+('PD-02', 'PD', false, 'Quadrato Meticcio', 'init_script', current_timestamp),
+('BO-01', 'BO', true, 'Notes', 'init_script', current_timestamp);

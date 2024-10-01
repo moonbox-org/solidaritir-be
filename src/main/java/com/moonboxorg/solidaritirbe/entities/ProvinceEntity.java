@@ -16,7 +16,7 @@ import java.util.List;
 public class ProvinceEntity extends AuditableEntity {
 
     @Id
-    @Column(name = "code", length = 2)
+    @Column(name = "code", length = 2, updatable = false)
     private String code;
 
     @Column(name = "name", nullable = false, unique = true, updatable = false)

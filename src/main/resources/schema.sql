@@ -12,7 +12,7 @@ create table if not exists provinces(
 );
 
 create table if not exists collection_points (
-    code bigint primary key,
+    code serial primary key,
     name varchar(255),
     province_id varchar(2),
     active boolean,
