@@ -52,5 +52,4 @@ management:
 logging:
   level:
     root: INFO
-    org.springframework.web: DEBUG
-    com.moonboxorg.solidaritirbe: DEBUG
+    com.moonboxorg.solidaritirbe: INFO

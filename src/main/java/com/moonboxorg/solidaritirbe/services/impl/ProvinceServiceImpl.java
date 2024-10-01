@@ -6,12 +6,14 @@ import com.moonboxorg.solidaritirbe.entities.ProvinceEntity;
 import com.moonboxorg.solidaritirbe.repositories.ProvinceRepository;
 import com.moonboxorg.solidaritirbe.services.ProvinceService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProvinceServiceImpl implements ProvinceService {
@@ -25,6 +27,7 @@ public class ProvinceServiceImpl implements ProvinceService {
         if (Strings.isNotBlank(region)) {
             return getProvinceEntityByRegion(region);
         }
+        log.info("No filter applied, fetching all provinces");
         return getAll();
     }
 
@@ -37,12 +40,14 @@ public class ProvinceServiceImpl implements ProvinceService {
 
     @Override
     public Optional<ProvinceResponseDTO> getProvinceEntityByCode(String code) {
+        log.info("Fetching province by code: {}", code);
         return provinceRepository.findByCode(code)
                 .map(this::mapToProvinceResponseDTO);
     }
 
     @Override
     public List<ProvinceResponseDTO> getProvinceEntityByNameContainingIgnoreCase(String name) {
+        log.info("Fetching provinces by name containing: {}", name);
         return provinceRepository.findByNameContainingIgnoreCase(name).stream()
                 .map(this::mapToProvinceResponseDTO)
                 .toList();
@@ -50,6 +55,7 @@ public class ProvinceServiceImpl implements ProvinceService {
 
     @Override
     public List<ProvinceResponseDTO> getProvinceEntityByRegion(String region) {
+        log.info("Fetching provinces by region: {}", region);
         return provinceRepository.findByRegionIgnoreCase(region).stream()
                 .map(this::mapToProvinceResponseDTO)
                 .toList();

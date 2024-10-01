@@ -12,6 +12,11 @@
         <http>
             <url>http://localhost:3100/loki/api/v1/push</url>
         </http>
+
+        <batchMaxItems>1000</batchMaxItems>
+        <batchMaxBytes>102400</batchMaxBytes>
+        <batchTimeoutMs>2000</batchTimeoutMs>
+
         <format>
             <label>
                 <pattern>app=solidaritirbe,host=${HOSTNAME},env=develop</pattern>
