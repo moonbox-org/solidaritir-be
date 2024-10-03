@@ -17,7 +17,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-@ToString(exclude = "subCategories")
+@ToString(exclude = {"subCategories", "products"})
 @NoArgsConstructor
 @Table(name = "categories")
 public class CategoryEntity extends AuditableEntity {
@@ -38,6 +38,9 @@ public class CategoryEntity extends AuditableEntity {
 
     @OneToMany(mappedBy = "parentCategory", cascade = ALL, orphanRemoval = true)
     private Set<CategoryEntity> subCategories = new HashSet<>();
+
+    @OneToMany(mappedBy = "category")
+    private Set<ProductEntity> products = new HashSet<>();
 
     // ----- Helper methods ----- //
 

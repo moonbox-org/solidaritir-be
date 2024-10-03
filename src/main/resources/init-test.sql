@@ -39,6 +39,22 @@ create table if not exists categories (
         on delete cascade
 );
 
+create table if not exists products (
+    id serial primary key,
+    name varchar(255) not null unique,
+    description text,
+    category_id bigint,
+    created_at timestamp,
+    last_updated_at timestamp,
+    created_by varchar(255),
+    last_updated_by varchar(255),
+    constraint fk_category
+        foreign key (category_id)
+        references categories(id)
+        on delete set null
+);
+
+-- provinces
 insert into provinces (name, code, region, created_at) values
 ('Agrigento', 'AG', 'Sicilia', current_timestamp),
 ('Alessandria', 'AL', 'Piemonte', current_timestamp),
@@ -151,17 +167,19 @@ insert into provinces (name, code, region, created_at) values
 ('Vicenza', 'VI', 'Veneto', current_timestamp),
 ('Viterbo', 'VT', 'Lazio', current_timestamp);
 
+-- collection points
 insert into collection_points (name, province_id, active, notes, created_by, created_at) values
 ('PD-01', 'PD', true, 'Spazio Stria', 'init_script', current_timestamp),
 ('PD-02', 'PD', false, 'Quadrato Meticcio', 'init_script', current_timestamp),
 ('BO-01', 'BO', true, 'Notes', 'init_script', current_timestamp);
 
--- Insert root categories
-insert into categories (name, parent_id, created_by, created_at) values ('Perishables', null, 'init_script', current_timestamp);
-insert into categories (name, parent_id, created_by, created_at) values ('Equipment', null, 'init_script', current_timestamp);
-insert into categories (name, parent_id, created_by, created_at) values ('Supplies', null, 'init_script', current_timestamp);
-insert into categories (name, parent_id, created_by, created_at) values ('Medicines', null, 'init_script', current_timestamp);
-insert into categories (name, parent_id, created_by, created_at) values ('Others', null, 'init_script', current_timestamp);
+-- categories
+insert into categories (name, parent_id, created_by, created_at) values
+('Perishables', null, 'init_script', current_timestamp),
+('Equipment', null, 'init_script', current_timestamp),
+('Supplies', null, 'init_script', current_timestamp),
+('Medicines', null, 'init_script', current_timestamp),
+('Others', null, 'init_script', current_timestamp);
 
 -- Insert sub-categories under 'Perishables' (assuming 'Perishables' has id = 1)
 insert into categories (name, parent_id, created_by, created_at) values ('Food', 1, 'init_script', current_timestamp);
@@ -177,3 +195,17 @@ insert into categories (name, parent_id, created_by, created_at) values ('Diaper
 -- Insert sub-categories under 'Clothing' (assuming 'Clothing' has id = 9)
 insert into categories (name, parent_id, created_by, created_at) values ('Adult clothes', 9, 'init_script', current_timestamp);
 insert into categories (name, parent_id, created_by, created_at) values ('Baby clothes', 9, 'init_script', current_timestamp);
+
+-- products
+insert into products (name, description, category_id, created_by, created_at) values
+('Baby biscuits', 'Baby biscuits', 8, 'init_script', current_timestamp),
+('Baby jackets', 'Baby jackets', 12, 'init_script', current_timestamp),
+('Diapers - size 1', 'Baby diapers size 1', 10, 'init_script', current_timestamp),
+('Diapers - size 2', 'Baby diapers size 2', 10, 'init_script', current_timestamp),
+('Adult diapers', 'Diapers for adults', 10, 'init_script', current_timestamp),
+('Wheat flour', 'Wheat flour', 6, 'init_script', current_timestamp),
+('Short pasta', 'Short pasta', 7, 'init_script', current_timestamp),
+('Gluten free pasta', 'Gluten free pasta', 7, 'init_script', current_timestamp),
+('Hand sanitizer', 'Alcohol based hand sanitizer', 3, 'init_script', current_timestamp),
+('Liquid hand soap', 'Liquid hand soap', 3, 'init_script', current_timestamp),
+('Wet wipes', 'Wet wipes', 3, 'init_script', current_timestamp);
