@@ -1,5 +1,6 @@
 drop table if exists collection_points;
 drop table if exists provinces;
+drop table if exists categories cascade;
 
 create table if not exists provinces(
     code varchar(2) primary key,
@@ -27,5 +28,21 @@ create table if not exists collection_points (
         on delete set null
 );
 
+create table if not exists categories (
+    id serial primary key,
+    name varchar(255) not null unique,
+    description text,
+    parent_id bigint,
+    created_at timestamp,
+    last_updated_at timestamp,
+    created_by varchar(255),
+    last_updated_by varchar(255),
+    constraint fk_parent_category
+        foreign key (parent_id)
+        references categories(id)
+        on delete cascade
+);
+
 create index if not exists idx_province_name on provinces(name);
 create index if not exists idx_collection_point_province on collection_points(province_id);
+create index if not exists idx_parent_id on categories(parent_id);

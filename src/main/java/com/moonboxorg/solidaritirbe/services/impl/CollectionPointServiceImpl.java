@@ -7,10 +7,8 @@ import com.moonboxorg.solidaritirbe.entities.ProvinceEntity;
 import com.moonboxorg.solidaritirbe.repositories.CollectionPointRepository;
 import com.moonboxorg.solidaritirbe.repositories.ProvinceRepository;
 import com.moonboxorg.solidaritirbe.services.CollectionPointService;
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +70,7 @@ public class CollectionPointServiceImpl implements CollectionPointService {
     }
 
     @Override
-    public CollectionPointResponseDTO createCollectionPoint(CreateCollectionPointRequestDTO dto) throws BadRequestException {
+    public CollectionPointResponseDTO createCollectionPoint(CreateCollectionPointRequestDTO dto) {
         ProvinceEntity province = provinceRepository
                 .findByCode(dto.getProvinceCode())
                 .orElseThrow(ValidationException::new);

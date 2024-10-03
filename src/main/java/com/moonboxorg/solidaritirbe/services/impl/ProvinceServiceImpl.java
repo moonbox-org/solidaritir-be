@@ -3,6 +3,7 @@ package com.moonboxorg.solidaritirbe.services.impl;
 import com.moonboxorg.solidaritirbe.dto.ProvinceResponseDTO;
 import com.moonboxorg.solidaritirbe.entities.CollectionPointEntity;
 import com.moonboxorg.solidaritirbe.entities.ProvinceEntity;
+import com.moonboxorg.solidaritirbe.exceptions.ResourceNotFoundException;
 import com.moonboxorg.solidaritirbe.repositories.ProvinceRepository;
 import com.moonboxorg.solidaritirbe.services.ProvinceService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,6 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -39,10 +39,11 @@ public class ProvinceServiceImpl implements ProvinceService {
     }
 
     @Override
-    public Optional<ProvinceResponseDTO> getProvinceEntityByCode(String code) {
+    public ProvinceResponseDTO getProvinceEntityByCode(String code) throws ResourceNotFoundException {
         log.info("Fetching province by code: {}", code);
         return provinceRepository.findByCode(code)
-                .map(this::mapToProvinceResponseDTO);
+                .map(this::mapToProvinceResponseDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Province not found for code: " + code));
     }
 
     @Override

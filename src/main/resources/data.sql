@@ -120,3 +120,26 @@ insert into collection_points (name, province_id, active, notes, created_by, cre
 ('PD-01', 'PD', true, 'Spazio Stria', 'init_script', current_timestamp),
 ('PD-02', 'PD', false, 'Quadrato Meticcio', 'init_script', current_timestamp),
 ('BO-01', 'BO', true, 'Notes', 'init_script', current_timestamp);
+
+delete from categories;
+-- Insert root categories
+insert into categories (name, parent_id, created_by, created_at) values ('Perishables', null, 'init_script', current_timestamp);
+insert into categories (name, parent_id, created_by, created_at) values ('Equipment', null, 'init_script', current_timestamp);
+insert into categories (name, parent_id, created_by, created_at) values ('Supplies', null, 'init_script', current_timestamp);
+insert into categories (name, parent_id, created_by, created_at) values ('Medicines', null, 'init_script', current_timestamp);
+insert into categories (name, parent_id, created_by, created_at) values ('Others', null, 'init_script', current_timestamp);
+
+-- Insert sub-categories under 'Perishables' (assuming 'Perishables' has id = 1)
+insert into categories (name, parent_id, created_by, created_at) values ('Food', 1, 'init_script', current_timestamp);
+
+-- Insert sub-sub-categories under 'Food' (assuming 'Food' has id = 6)
+insert into categories (name, parent_id, created_by, created_at) values ('Pasta', 6, 'init_script', current_timestamp);
+insert into categories (name, parent_id, created_by, created_at) values ('Baby food', 6, 'init_script', current_timestamp);
+
+-- Insert sub-categories under 'Equipment' (assuming 'Equipment' has id = 2)
+insert into categories (name, parent_id, created_by, created_at) values ('Clothing', 2, 'init_script', current_timestamp);
+insert into categories (name, parent_id, created_by, created_at) values ('Diapers', 2, 'init_script', current_timestamp);
+
+-- Insert sub-categories under 'Clothing' (assuming 'Clothing' has id = 9)
+insert into categories (name, parent_id, created_by, created_at) values ('Adult clothes', 9, 'init_script', current_timestamp);
+insert into categories (name, parent_id, created_by, created_at) values ('Baby clothes', 9, 'init_script', current_timestamp);

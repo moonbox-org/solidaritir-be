@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "collectionPoints")
 @Table(name = "provinces")
 public class ProvinceEntity extends AuditableEntity {
 
