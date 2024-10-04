@@ -29,7 +29,7 @@ public class ProductController {
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Long categoryId,
-            @RequestParam(required = false) boolean activeOnly,
+            @RequestParam(required = false) Boolean activeOnly,
             @RequestParam(required = false) String ean13
     ) throws ResourceNotFoundException, BadRequestException {
         if (id != null)
@@ -40,7 +40,7 @@ public class ProductController {
         var input = new GetFilteredProductsInputModel();
         input.setName(name);
         input.setCategoryId(categoryId);
-        input.setActive(activeOnly);
+        input.setActive(activeOnly != null && activeOnly);
 
         return ApiResponseBuilder.success(productService.getFilteredProducts(input));
     }
