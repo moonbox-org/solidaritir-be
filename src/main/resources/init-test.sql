@@ -280,7 +280,6 @@ insert into packages (product_id, created_by, created_at) values
 -- items
 insert into items (product_id, package_id, expiration_date, created_by, created_at) values
 (1, null, '2025-03-01', 'init_script', current_timestamp),
-(8, 1, null, 'init_script', current_timestamp),
 (9, 1, null, 'init_script', current_timestamp),
 (10, 1, null, 'init_script', current_timestamp),
 (11, 1, null, 'init_script', current_timestamp),

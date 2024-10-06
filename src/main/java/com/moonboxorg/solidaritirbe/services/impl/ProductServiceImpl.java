@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponseDTO> getFilteredProducts(GetFilteredProductsInputModel input) throws ResourceNotFoundException, BadRequestException {
+    public List<ProductResponseDTO> getFilteredProducts(GetFilteredProductsInputModel input) throws ResourceNotFoundException {
         if (input.getName() != null) {
             var products = input.isActive()
                     ? productRepository.findByNameContainingIgnoreCaseAndActive(input.getName(), true)
