@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -12,9 +13,10 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
+@ToString
 @NoArgsConstructor
 @Table(name = "products")
-public class ProductEntity {
+public class ProductEntity extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -42,5 +44,9 @@ public class ProductEntity {
     @Length(min = 13, max = 13, message = "EAN13 code must be 13 characters long")
     @Column(name = "ean13", length = 13, unique = true)
     private String ean13;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "container_type_id")
+    private ContainerTypeEntity containerType;
 
 }

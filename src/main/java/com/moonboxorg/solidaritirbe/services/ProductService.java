@@ -6,7 +6,6 @@ import com.moonboxorg.solidaritirbe.models.GetFilteredProductsInputModel;
 import org.apache.coyote.BadRequestException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProductService {
 

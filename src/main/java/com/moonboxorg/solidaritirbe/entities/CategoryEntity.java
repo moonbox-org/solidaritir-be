@@ -17,10 +17,13 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @Entity
-@ToString(exclude = {"subCategories", "products"})
 @NoArgsConstructor
+@ToString(exclude = {"subCategories", "products"})
 @Table(name = "categories")
 public class CategoryEntity extends AuditableEntity {
+
+    private static final String VALIDATE_CATEGORY_MSG = "A category cannot be its own parent";
+    private static final String VALIDATE_SUBCATEGORY_MSG = "Subcategory cannot be null";
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -48,7 +51,7 @@ public class CategoryEntity extends AuditableEntity {
     @PrePersist
     private void validateParentCategory() {
         if (this.parentCategory != null && this.parentCategory.equals(this))
-            throw new IllegalArgumentException("A category cannot be its own parent.");
+            throw new IllegalArgumentException(VALIDATE_CATEGORY_MSG);
     }
 
     /**
@@ -58,7 +61,7 @@ public class CategoryEntity extends AuditableEntity {
      * @param subCategory The sub-category to add.
      */
     public void addSubCategory(CategoryEntity subCategory) {
-        Assert.notNull(subCategory, "SubCategory cannot be null");
+        Assert.notNull(subCategory, VALIDATE_SUBCATEGORY_MSG);
         // Avoid adding the same sub-category multiple times
         if (this.subCategories.contains(subCategory))
             return;
@@ -75,7 +78,7 @@ public class CategoryEntity extends AuditableEntity {
      * @param subCategory The sub-category to remove.
      */
     public void removeSubCategory(CategoryEntity subCategory) {
-        Assert.notNull(subCategory, "SubCategory cannot be null");
+        Assert.notNull(subCategory, VALIDATE_SUBCATEGORY_MSG);
         // Remove the sub-category from the set
         if (this.subCategories.remove(subCategory)) {
             // Unset the parent of the sub-category

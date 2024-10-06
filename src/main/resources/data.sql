@@ -1,6 +1,5 @@
 -- provinces
 delete from provinces;
-
 insert into provinces (name, code, region, created_at) values
 ('Agrigento', 'AG', 'Sicilia', current_timestamp),
 ('Alessandria', 'AL', 'Piemonte', current_timestamp),
@@ -115,7 +114,6 @@ insert into provinces (name, code, region, created_at) values
 
 -- collection points
 delete from collection_points;
-
 insert into collection_points (name, province_id, active, notes, created_by, created_at) values
 ('PD-01', 'PD', true, 'Spazio Stria', 'init_script', current_timestamp),
 ('PD-02', 'PD', false, 'Quadrato Meticcio', 'init_script', current_timestamp),
@@ -146,9 +144,11 @@ insert into categories (name, parent_id, created_by, created_at) values ('Diaper
 insert into categories (name, parent_id, created_by, created_at) values ('Adult clothes', 9, 'init_script', current_timestamp);
 insert into categories (name, parent_id, created_by, created_at) values ('Baby clothes', 9, 'init_script', current_timestamp);
 
+-- Insert sub-categories under 'Supplies' (assuming 'Supplies' has id = 3)
+insert into categories (name, parent_id, created_by, created_at) values ('Hygiene', 3, 'init_script', current_timestamp);
+
 -- products
 delete from products;
-
 insert into products (name, description, category_id, created_by, created_at) values
 ('Baby biscuits', 'Baby biscuits', 8, 'init_script', current_timestamp),
 ('Baby jackets', 'Baby jackets', 12, 'init_script', current_timestamp),
@@ -158,6 +158,33 @@ insert into products (name, description, category_id, created_by, created_at) va
 ('Wheat flour', 'Wheat flour', 6, 'init_script', current_timestamp),
 ('Short pasta', 'Short pasta', 7, 'init_script', current_timestamp),
 ('Gluten free pasta', 'Gluten free pasta', 7, 'init_script', current_timestamp),
-('Hand sanitizer', 'Alcohol based hand sanitizer', 3, 'init_script', current_timestamp),
-('Liquid hand soap', 'Liquid hand soap', 3, 'init_script', current_timestamp),
-('Wet wipes', 'Wet wipes', 3, 'init_script', current_timestamp);
+('Hand sanitizer', 'Alcohol based hand sanitizer', 13, 'init_script', current_timestamp),
+('Liquid hand soap', 'Liquid hand soap', 13, 'init_script', current_timestamp),
+('Wet wipes', 'Wet wipes', 13, 'init_script', current_timestamp),
+('Toothpaste', 'Toothpaste', 13, 'init_script', current_timestamp),
+('Toothbrush', 'Toothbrush', 13, 'init_script', current_timestamp),
+('Hygiene kit', 'Hygiene kit', 13, 'init_script', current_timestamp);
+
+-- container_types
+delete from container_types;
+insert into container_types (name, description, fragile, measuring_unit, capacity, created_by, created_at) values
+('Glass bottle', 'Glass bottle', true, 'Liters', 0.75, 'init_script', current_timestamp),
+('Plastic bottle', 'Plastic bottle', false, 'Liters', 1.0, 'init_script', current_timestamp),
+('Cardboard box', 'Cardboard box', false, 'Cubic meters', 0.5, 'init_script', current_timestamp),
+('Metal can', 'Metal can', false, 'Liters', 0.33, 'init_script', current_timestamp);
+
+-- packages
+delete from packages;
+insert into packages (product_id, created_by, created_at) values
+(14, 'init_script', current_timestamp);
+
+-- items
+delete from items;
+insert into items (product_id, package_id, expiration_date, created_by, created_at) values
+(1, null, '2025-03-01', 'init_script', current_timestamp),
+(8, 1, null, 'init_script', current_timestamp),
+(9, 1, null, 'init_script', current_timestamp),
+(10, 1, null, 'init_script', current_timestamp),
+(11, 1, null, 'init_script', current_timestamp),
+(12, 1, null, 'init_script', current_timestamp),
+(13, 1, null, 'init_script', current_timestamp);

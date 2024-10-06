@@ -39,11 +39,29 @@ create table if not exists categories (
         on delete cascade
 );
 
+create table if not exists container_types (
+    id serial primary key,
+    name varchar(255) not null unique,
+    description text,
+    fragile boolean,
+    measuring_unit varchar(255),
+    capacity double precision,
+    created_at timestamp,
+    last_updated_at timestamp,
+    created_by varchar(255),
+    last_updated_by varchar(255)
+);
+
 create table if not exists products (
     id serial primary key,
     name varchar(255) not null unique,
     description text,
     category_id bigint,
+    active boolean default true,
+    brand_name varchar(255),
+    manufacturer varchar(255),
+    ean13 varchar(13),
+    container_type_id bigint,
     created_at timestamp,
     last_updated_at timestamp,
     created_by varchar(255),
@@ -51,6 +69,42 @@ create table if not exists products (
     constraint fk_category
         foreign key (category_id)
         references categories(id)
+        on delete set null,
+    constraint fk_container_type
+        foreign key (container_type_id)
+        references container_types(id)
+        on delete set null
+);
+
+create table if not exists packages (
+    id serial primary key,
+    product_id bigint,
+    created_at timestamp,
+    last_updated_at timestamp,
+    created_by varchar(255),
+    last_updated_by varchar(255),
+    constraint fk_product_in_package
+        foreign key (product_id)
+        references products(id)
+        on delete set null
+);
+
+create table if not exists items (
+    id serial primary key,
+    product_id bigint,
+    package_id bigint,
+    expiration_date date,
+    created_at timestamp,
+    last_updated_at timestamp,
+    created_by varchar(255),
+    last_updated_by varchar(255),
+    constraint fk_product_in_item
+        foreign key (product_id)
+        references products(id)
+        on delete set null,
+    constraint fk_package_in_item
+        foreign key (package_id)
+        references packages(id)
         on delete set null
 );
 
@@ -183,18 +237,17 @@ insert into categories (name, parent_id, created_by, created_at) values
 
 -- Insert sub-categories under 'Perishables' (assuming 'Perishables' has id = 1)
 insert into categories (name, parent_id, created_by, created_at) values ('Food', 1, 'init_script', current_timestamp);
-
 -- Insert sub-sub-categories under 'Food' (assuming 'Food' has id = 6)
 insert into categories (name, parent_id, created_by, created_at) values ('Pasta', 6, 'init_script', current_timestamp);
 insert into categories (name, parent_id, created_by, created_at) values ('Baby food', 6, 'init_script', current_timestamp);
-
 -- Insert sub-categories under 'Equipment' (assuming 'Equipment' has id = 2)
 insert into categories (name, parent_id, created_by, created_at) values ('Clothing', 2, 'init_script', current_timestamp);
 insert into categories (name, parent_id, created_by, created_at) values ('Diapers', 2, 'init_script', current_timestamp);
-
 -- Insert sub-categories under 'Clothing' (assuming 'Clothing' has id = 9)
 insert into categories (name, parent_id, created_by, created_at) values ('Adult clothes', 9, 'init_script', current_timestamp);
 insert into categories (name, parent_id, created_by, created_at) values ('Baby clothes', 9, 'init_script', current_timestamp);
+-- Insert sub-categories under 'Supplies' (assuming 'Supplies' has id = 3)
+insert into categories (name, parent_id, created_by, created_at) values ('Hygiene', 3, 'init_script', current_timestamp);
 
 -- products
 insert into products (name, description, category_id, created_by, created_at) values
@@ -206,6 +259,30 @@ insert into products (name, description, category_id, created_by, created_at) va
 ('Wheat flour', 'Wheat flour', 6, 'init_script', current_timestamp),
 ('Short pasta', 'Short pasta', 7, 'init_script', current_timestamp),
 ('Gluten free pasta', 'Gluten free pasta', 7, 'init_script', current_timestamp),
-('Hand sanitizer', 'Alcohol based hand sanitizer', 3, 'init_script', current_timestamp),
-('Liquid hand soap', 'Liquid hand soap', 3, 'init_script', current_timestamp),
-('Wet wipes', 'Wet wipes', 3, 'init_script', current_timestamp);
+('Hand sanitizer', 'Alcohol based hand sanitizer', 13, 'init_script', current_timestamp),
+('Liquid hand soap', 'Liquid hand soap', 13, 'init_script', current_timestamp),
+('Wet wipes', 'Wet wipes', 13, 'init_script', current_timestamp),
+('Toothpaste', 'Toothpaste', 13, 'init_script', current_timestamp),
+('Toothbrush', 'Toothbrush', 13, 'init_script', current_timestamp),
+('Hygiene kit', 'Hygiene kit', 13, 'init_script', current_timestamp);
+
+-- container_types
+insert into container_types (name, description, fragile, measuring_unit, capacity, created_by, created_at) values
+('Glass bottle', 'Glass bottle', true, 'Liters', 0.75, 'init_script', current_timestamp),
+('Plastic bottle', 'Plastic bottle', false, 'Liters', 1.0, 'init_script', current_timestamp),
+('Cardboard box', 'Cardboard box', false, 'Cubic meters', 0.5, 'init_script', current_timestamp),
+('Metal can', 'Metal can', false, 'Liters', 0.33, 'init_script', current_timestamp);
+
+-- packages
+insert into packages (product_id, created_by, created_at) values
+(14, 'init_script', current_timestamp);
+
+-- items
+insert into items (product_id, package_id, expiration_date, created_by, created_at) values
+(1, null, '2025-03-01', 'init_script', current_timestamp),
+(8, 1, null, 'init_script', current_timestamp),
+(9, 1, null, 'init_script', current_timestamp),
+(10, 1, null, 'init_script', current_timestamp),
+(11, 1, null, 'init_script', current_timestamp),
+(12, 1, null, 'init_script', current_timestamp),
+(13, 1, null, 'init_script', current_timestamp);
