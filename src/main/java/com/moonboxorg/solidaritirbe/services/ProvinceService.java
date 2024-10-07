@@ -4,7 +4,6 @@ import com.moonboxorg.solidaritirbe.dto.ProvinceResponseDTO;
 import com.moonboxorg.solidaritirbe.exceptions.ResourceNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProvinceService {
 

@@ -1,7 +1,7 @@
 package com.moonboxorg.solidaritirbe.dto;
 
-import com.moonboxorg.solidaritirbe.utils.ProvinceCodeConstraint;
-import jakarta.validation.constraints.NotEmpty;
+import com.moonboxorg.solidaritirbe.utils.validators.ProvinceCodeConstraint;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
@@ -14,11 +14,11 @@ import org.springframework.validation.annotation.Validated;
 @AllArgsConstructor
 public class CreateCollectionPointRequestDTO {
 
-    @NotEmpty(message = "collection point name cannot be empty")
+    @NotBlank(message = "collection point name cannot be empty")
     private String name;
 
     @ProvinceCodeConstraint
-    @NotEmpty(message = "collection point province code cannot be empty")
+    @NotBlank(message = "collection point province code cannot be empty")
     private String provinceCode;
 
     @NotNull(message = "collection point active cannot be null")

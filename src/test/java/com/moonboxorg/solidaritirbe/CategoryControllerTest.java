@@ -2,7 +2,6 @@ package com.moonboxorg.solidaritirbe;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moonboxorg.solidaritirbe.dto.AddCategoryRequestDTO;
-import com.moonboxorg.solidaritirbe.dto.ApiResponse;
 import com.moonboxorg.solidaritirbe.dto.CategoryResponseDTO;
 import com.moonboxorg.solidaritirbe.repositories.CategoryRepository;
 import com.moonboxorg.solidaritirbe.services.impl.CategoryServiceImpl;
@@ -15,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.hamcrest.Matchers.hasSize;

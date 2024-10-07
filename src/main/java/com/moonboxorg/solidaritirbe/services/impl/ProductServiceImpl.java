@@ -9,12 +9,9 @@ import com.moonboxorg.solidaritirbe.repositories.ProductRepository;
 import com.moonboxorg.solidaritirbe.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.moonboxorg.solidaritirbe.utils.BarcodeUtils.validateEAN13;
 
 @Slf4j
 @Service
@@ -32,10 +29,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponseDTO getProductByEan13(String ean13) throws ResourceNotFoundException, BadRequestException {
-        if (!validateEAN13(ean13))
-            throw new BadRequestException("Invalid EAN-13 code: " + ean13);
-
+    public ProductResponseDTO getProductByEan13(String ean13) throws ResourceNotFoundException {
         return productRepository.findByEan13(ean13)
                 .map(this::mapToProductResponseDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found for EAN-13 code: " + ean13));

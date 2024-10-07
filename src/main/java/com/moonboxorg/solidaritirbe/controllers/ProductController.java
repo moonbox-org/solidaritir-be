@@ -1,18 +1,18 @@
 package com.moonboxorg.solidaritirbe.controllers;
 
 import com.moonboxorg.solidaritirbe.dto.ApiResponse;
+import com.moonboxorg.solidaritirbe.dto.CreateProductRequestDTO;
 import com.moonboxorg.solidaritirbe.exceptions.ResourceNotFoundException;
 import com.moonboxorg.solidaritirbe.models.GetFilteredProductsInputModel;
 import com.moonboxorg.solidaritirbe.services.impl.ProductServiceImpl;
 import com.moonboxorg.solidaritirbe.utils.ApiResponseBuilder;
+import com.moonboxorg.solidaritirbe.utils.validators.Ean13;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -30,7 +30,7 @@ public class ProductController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) Boolean activeOnly,
-            @RequestParam(required = false) String ean13
+            @RequestParam(required = false) @Ean13 String ean13
     ) throws ResourceNotFoundException, BadRequestException {
         if (id != null)
             return ApiResponseBuilder.success(productService.getProductById(id));
@@ -43,5 +43,12 @@ public class ProductController {
         input.setActive(activeOnly != null && activeOnly);
 
         return ApiResponseBuilder.success(productService.getFilteredProducts(input));
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<Object>> createProduct(
+            @RequestBody @Valid CreateProductRequestDTO createProductRequestDTO
+    ) {
+        return null;
     }
 }

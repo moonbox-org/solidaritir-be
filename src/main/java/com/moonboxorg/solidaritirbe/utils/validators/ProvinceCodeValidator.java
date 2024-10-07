@@ -1,4 +1,4 @@
-package com.moonboxorg.solidaritirbe.utils;
+package com.moonboxorg.solidaritirbe.utils.validators;
 
 import com.moonboxorg.solidaritirbe.repositories.ProvinceRepository;
 import jakarta.validation.ConstraintValidator;
