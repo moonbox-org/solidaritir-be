@@ -80,7 +80,8 @@ create table if not exists products (
     constraint fk_container_type
         foreign key (container_type_id)
         references container_types(id)
-        on delete set null
+        on delete set null,
+    unique (name, container_type_id)
 );
 
 create table if not exists packages (

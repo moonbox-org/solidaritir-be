@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 @Setter
 @ToString
 @Validated
-public class CreateProductRequestDTO {
+public class AddProductRequestDTO {
 
     @NotBlank
     private String name;
