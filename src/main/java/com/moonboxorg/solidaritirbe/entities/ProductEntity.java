@@ -25,15 +25,19 @@ public class ProductEntity extends AuditableEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "description")
-    private String description;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "container_type_id")
+    private ContainerTypeEntity containerType;
+
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "brand_name")
     private String brandName;
@@ -47,9 +51,5 @@ public class ProductEntity extends AuditableEntity {
     @EAN
     @Column(name = "ean13", length = 13, unique = true)
     private String ean13;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "container_type_id", nullable = true)
-    private ContainerTypeEntity containerType;
 
 }

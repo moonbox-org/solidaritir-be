@@ -61,14 +61,14 @@ create table if not exists container_types (
 
 create table if not exists products (
     id serial primary key,
-    name varchar(255) not null unique,
+    name varchar(255) not null,
     description text,
     category_id bigint,
+    container_type_id bigint,
     active boolean default true,
     brand_name varchar(255),
     manufacturer varchar(255),
     ean13 varchar(13),
-    container_type_id bigint,
     created_at timestamp,
     last_updated_at timestamp,
     created_by varchar(255),
@@ -81,7 +81,7 @@ create table if not exists products (
         foreign key (container_type_id)
         references container_types(id)
         on delete set null,
-    unique (name, container_type_id)
+    unique (name, category_id, container_type_id)
 );
 
 create table if not exists packages (
