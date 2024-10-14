@@ -17,7 +17,13 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Table(
         name = "products",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "container_type_id"})}
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {
+                        "name",
+                        "category_id",
+                        "container_type_id"
+                })
+        }
 )
 public class ProductEntity extends AuditableEntity {
 

@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface ProductService {
 
+    List<ProductResponseDTO> getAllProducts();
+
     ProductResponseDTO getProductById(Long productId) throws ResourceNotFoundException;
 
     ProductResponseDTO getProductByEan13(String ean13) throws ResourceNotFoundException, BadRequestException;
@@ -17,4 +19,6 @@ public interface ProductService {
     List<ProductResponseDTO> getFilteredProducts(GetFilteredProductsInputModel inputModel) throws ResourceNotFoundException, BadRequestException;
 
     ProductResponseDTO addProduct(AddProductRequestDTO dto) throws BadRequestException;
+
+    Long deleteProductById(Long id) throws ResourceNotFoundException;
 }

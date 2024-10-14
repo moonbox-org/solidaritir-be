@@ -31,15 +31,14 @@ public class ItemController {
             @RequestParam(required = false) Long packageId,
             @RequestParam(required = false) Integer expInDays
     ) throws ResourceNotFoundException {
-        if (id != null)
-            return ApiResponseBuilder.success(itemService.getItemById(id));
+        GetFilteredItemsInputModel input = new GetFilteredItemsInputModel();
+        input.setId(0L);
+        input.setProductId(0L);
+        input.setCategoryId(0L);
+        input.setPackageId(0L);
+        input.setExpInDays(0);
 
-        var input = new GetFilteredItemsInputModel();
-        input.setProductId(productId);
-        input.setCategoryId(categoryId);
-        input.setPackageId(packageId);
-        input.setExpInDays(expInDays);
 
-        return ApiResponseBuilder.success(itemService.getFilteredItems(input));
+        return ApiResponseBuilder.success(itemService.getAllItems());
     }
 }

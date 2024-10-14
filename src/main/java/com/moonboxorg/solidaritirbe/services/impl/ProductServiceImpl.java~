@@ -30,15 +30,6 @@ public class ProductServiceImpl implements ProductService {
     private final ContainerTypeRepository containerTypeRepository;
 
     @Override
-    public List<ProductResponseDTO> getAllProducts() {
-        log.info("Fetching all products");
-        return productRepository.findAll()
-                .stream()
-                .map(this::mapToProductResponseDTO)
-                .toList();
-    }
-
-    @Override
     public ProductResponseDTO getProductById(Long productId) throws ResourceNotFoundException {
         log.info("Fetching product by ID: {}", productId);
         return productRepository.findById(productId)
@@ -115,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
         return id;
     }
 
-    // ----- Helper methods ----- //
+    // ----- Helper methods -----
 
     private ProductResponseDTO mapToProductResponseDTO(ProductEntity p) {
         log.info("Mapping product entity to product response DTO: {}", p);

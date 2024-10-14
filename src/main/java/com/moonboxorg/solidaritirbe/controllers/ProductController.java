@@ -36,6 +36,8 @@ public class ProductController {
             return ApiResponseBuilder.success(productService.getProductById(id));
         if (ean13 != null)
             return ApiResponseBuilder.success(productService.getProductByEan13(ean13));
+        if (name == null && categoryId == null && activeOnly == null)
+            return ApiResponseBuilder.success(productService.getAllProducts());
 
         var input = new GetFilteredProductsInputModel();
         input.setName(name);
@@ -50,5 +52,12 @@ public class ProductController {
             @RequestBody @Valid AddProductRequestDTO addProductRequestDTO
     ) throws BadRequestException {
         return ApiResponseBuilder.created(productService.addProduct(addProductRequestDTO));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ApiResponse<Object>> deleteProduct(
+            @RequestParam Long id
+    ) throws ResourceNotFoundException {
+        return ApiResponseBuilder.deleted(productService.deleteProductById(id));
     }
 }

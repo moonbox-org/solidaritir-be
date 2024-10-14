@@ -78,7 +78,10 @@ public class CategoryServiceImpl {
                     categoryToDelete.getId(),
                     categoryToDelete.getParentCategory().getId()
             );
-            CategoryEntity updatedParent = removeSubCategory(categoryToDelete.getParentCategory().getId(), categoryToDelete.getId());
+            CategoryEntity updatedParent = removeSubCategory(
+                    categoryToDelete.getParentCategory().getId(),
+                    categoryToDelete.getId()
+            );
             return updatedParent.getId();
         } else {
             log.info("Deleting root category with ID: {}", categoryToDelete.getId());
