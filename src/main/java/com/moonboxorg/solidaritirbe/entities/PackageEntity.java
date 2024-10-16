@@ -23,7 +23,7 @@ public class PackageEntity extends AuditableEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @OneToMany
+    @OneToMany(mappedBy = "packageEntity")
     private List<ItemEntity> items;
 
     /**

@@ -2,6 +2,7 @@ package com.moonboxorg.solidaritirbe.controllers;
 
 import com.moonboxorg.solidaritirbe.dto.AddProductRequestDTO;
 import com.moonboxorg.solidaritirbe.dto.ApiResponse;
+import com.moonboxorg.solidaritirbe.dto.ProductResponseDTO;
 import com.moonboxorg.solidaritirbe.exceptions.ResourceNotFoundException;
 import com.moonboxorg.solidaritirbe.models.GetFilteredProductsInputModel;
 import com.moonboxorg.solidaritirbe.services.impl.ProductServiceImpl;
@@ -48,14 +49,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Object>> addProduct(
+    public ResponseEntity<ApiResponse<ProductResponseDTO>> addProduct(
             @RequestBody @Valid AddProductRequestDTO addProductRequestDTO
     ) throws BadRequestException {
         return ApiResponseBuilder.created(productService.addProduct(addProductRequestDTO));
     }
 
     @DeleteMapping
-    public ResponseEntity<ApiResponse<Object>> deleteProduct(
+    public ResponseEntity<ApiResponse<Long>> deleteProduct(
             @RequestParam Long id
     ) throws ResourceNotFoundException {
         return ApiResponseBuilder.deleted(productService.deleteProductById(id));

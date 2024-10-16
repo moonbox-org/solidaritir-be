@@ -1,5 +1,6 @@
 package com.moonboxorg.solidaritirbe.exceptions;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.moonboxorg.solidaritirbe.dto.ApiResponse;
 import com.moonboxorg.solidaritirbe.utils.ApiResponseBuilder;
 import jakarta.validation.ConstraintViolation;
@@ -9,11 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import java.time.format.DateTimeParseException;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -57,6 +60,16 @@ public class GlobalExceptionHandler {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(", "));
         return ApiResponseBuilder.badRequest(errMsg);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public final ResponseEntity<ApiResponse<Object>> handleHttpMessageNotReadable(HttpMessageNotReadableException e, WebRequest request) {
+        logException(e);
+        if (e.getCause() instanceof InvalidFormatException invalidFormatEx
+                && invalidFormatEx.getCause() instanceof DateTimeParseException dateTimeEx) {
+            return ApiResponseBuilder.badRequest(dateTimeEx.getMessage());
+        }
+        return ApiResponseBuilder.serverError();
     }
 
     // Handle other exceptions

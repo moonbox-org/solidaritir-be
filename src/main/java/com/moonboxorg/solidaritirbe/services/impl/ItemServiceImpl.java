@@ -1,5 +1,6 @@
 package com.moonboxorg.solidaritirbe.services.impl;
 
+import com.moonboxorg.solidaritirbe.dto.AddItemRequestDTO;
 import com.moonboxorg.solidaritirbe.dto.ItemResponseDTO;
 import com.moonboxorg.solidaritirbe.entities.ItemEntity;
 import com.moonboxorg.solidaritirbe.exceptions.ResourceNotFoundException;
@@ -77,6 +78,38 @@ public class ItemServiceImpl implements ItemService {
                 .filter(item -> filterByExpirationDate(item, input))
                 .map(this::mapToItemResponseDTO)
                 .toList();
+    }
+
+    @Override
+    public ItemResponseDTO addItem(AddItemRequestDTO dto) throws ResourceNotFoundException {
+        var packageEntity = dto.getPackageId() != null
+                ? packageRepository.findById(dto.getPackageId()).orElseThrow(() -> new ResourceNotFoundException(PACKAGE_NOT_FOUND_MSG + dto.getPackageId()))
+                : null;
+
+        var productEntity = dto.getProductId() != null
+                ? productRepository.findById(dto.getProductId()).orElseThrow(() -> new ResourceNotFoundException(PRODUCT_NOT_FOUND_MSG + dto.getProductId()))
+                : null;
+
+        var itemToSave = new ItemEntity();
+        itemToSave.setProduct(productEntity);
+        itemToSave.setPackageEntity(packageEntity);
+        itemToSave.setExpirationDate(dto.getExpirationDate());
+        itemToSave = itemRepository.save(itemToSave);
+
+        if (packageEntity != null) {
+            packageEntity.getItems().add(itemToSave);
+            packageRepository.save(packageEntity);
+        }
+
+        return mapToItemResponseDTO(itemToSave);
+    }
+
+    @Override
+    public Long deleteItemById(Long id) throws ResourceNotFoundException {
+        if (!itemRepository.existsById(id))
+            throw new ResourceNotFoundException(ITEM_NOT_FOUND_MSG + id);
+        itemRepository.deleteById(id);
+        return id;
     }
 
     // ----- Helper methods ----- //

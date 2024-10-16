@@ -1,17 +1,17 @@
 package com.moonboxorg.solidaritirbe.controllers;
 
+import com.moonboxorg.solidaritirbe.dto.AddItemRequestDTO;
 import com.moonboxorg.solidaritirbe.dto.ApiResponse;
+import com.moonboxorg.solidaritirbe.dto.ItemResponseDTO;
 import com.moonboxorg.solidaritirbe.exceptions.ResourceNotFoundException;
 import com.moonboxorg.solidaritirbe.models.GetFilteredItemsInputModel;
 import com.moonboxorg.solidaritirbe.services.impl.ItemServiceImpl;
 import com.moonboxorg.solidaritirbe.utils.ApiResponseBuilder;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -41,5 +41,19 @@ public class ItemController {
         input.setExpInDays(expInDays);
 
         return ApiResponseBuilder.success(itemService.getFilteredItems(input));
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<ItemResponseDTO>> addItem(
+            @RequestBody @Valid AddItemRequestDTO addItemRequestDTO
+    ) throws ResourceNotFoundException {
+        return ApiResponseBuilder.created(itemService.addItem(addItemRequestDTO));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ApiResponse<Long>> deleteItem(
+            @RequestParam Long id
+    ) throws ResourceNotFoundException {
+        return ApiResponseBuilder.deleted(itemService.deleteItemById(id));
     }
 }
